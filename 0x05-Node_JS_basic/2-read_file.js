@@ -5,7 +5,7 @@
 */
 const fs = require('fs');
 
-function countStudents(path) {
+function countStudents (path) {
   fs.access(path, fs.constants.F_OK, (err) => {
     if (err) throw new Error('Cannot load the database');
   });

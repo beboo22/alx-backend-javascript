@@ -8,7 +8,7 @@ app.get('/', (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`...`);
+  console.log('...');
 });
 
 module.exports = app;
