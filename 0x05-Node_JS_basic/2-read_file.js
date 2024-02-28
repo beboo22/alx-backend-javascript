@@ -1,10 +1,10 @@
 #!/usr/bin/node
-const fs = require('fs').promises;
+const fs = require('fs');
 
 async function countStudents(path) {
   let db;
   try {
-    db = await fs.readFile(path, 'utf-8');
+    db = fs.readFileSync(path, 'utf-8');
     db = db.split('\n').map((line) => line.split(','));
   } catch (err) {
     throw new Error('Cannot load the database');
