@@ -2,18 +2,17 @@
 const fs = require('fs').promises;
 
 async function countStudents(path) {
+  let db;
   try {
-    await fs.access(path, fs.constants.F_OK);
+    db = await fs.readFile(path, 'utf-8');
+    db = db.split('\n').map((line) => line.split(','));
   } catch (err) {
     throw new Error('Cannot load the database');
   }
-
-  const db = await fs.readFile(path, 'utf-8');
-  const result = db.split('\n').map((line) => line.split(','));
   const data = {};
   let num = 0;
 
-  result.forEach((element) => {
+  db.forEach((element) => {
     if (element.length === 4) {
       const field = element[3];
       const name = element[0];
