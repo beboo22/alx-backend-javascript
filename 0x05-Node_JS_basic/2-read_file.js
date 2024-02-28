@@ -1,24 +1,30 @@
-/**
- *
-*
-*
-*/
 const fs = require('fs');
 
 function countStudents (path) {
   fs.access(path, fs.constants.F_OK, (err) => {
     if (err) throw new Error('Cannot load the database');
   });
-  fs.readFile(path, 'utf-8', (readErr, data) => {
-    if (readErr) throw new console.Error('Cannot load the database');
-    const result = data.split('\n').map((line) => line.split(','));
-    result.pop(result.length - 1);
-    console.log(`Number of students: ${result.length - 1}`);
-    const filed = result[0][[result[0].length - 1]];
-    const csstd = result.filter((std) => std[3] === 'CS');
-    console.log(csstd);
-    const csstd1 = result.filter((std) => std[3] === 'SWE');
-    console.log(csstd1);
+  const db = fs.readFileSync(path, 'utf-8');
+  const result = db.split('\n').map((line) => line.split(','));
+  const data = {};
+  let num = 0;
+  result.forEach((element) => {
+    if (element.length === 4) {
+      const field = element[3];
+      const name = element[0];
+      if (data[field] === undefined) {
+        data[field] = [name];
+      } else {
+        data[field].push(name);
+      }
+      num += 1;
+    }
+  });
+  delete data.field;
+  num -= 1;
+  console.log(`Number of students: ${num}`);
+  Object.entries(data).forEach(([key, val]) => {
+    console.log(`Number of students in ${key}: ${val.length}. List: ${val.join(', ')}`);
   });
 }
 module.exports = countStudents;
