@@ -1,4 +1,5 @@
 #!/usr/bin/node
+const http = require('http');
 const fs = require('fs').promises;
 
 async function countStudents (path) {
@@ -25,7 +26,7 @@ async function countStudents (path) {
     }
   });
 
-  delete data.field; // Change this line to delete data[field];
+  delete data.field;
   num -= 1;
 
   console.log(`Number of students: ${num}`);
@@ -34,4 +35,23 @@ async function countStudents (path) {
   });
 }
 
-module.exports = countStudents;
+const app = http.createServer(async (req, res) => {
+  res.writeHead(200, { 'Content-Type': 'text/plain' });
+  if (req.url === '/') {
+    res.end('Hello Holberton School!');
+  } else if (req.url === '/students') {
+    res.write('This is the list of our students');
+    try {
+      const result = await countStudents(process.argv[2]);
+      res.end(result);
+    } catch (e) {
+      res.end(e.message);
+    }
+  }
+});
+
+app.listen(1245, () => {
+  console.log('...');
+});
+
+module.exports = app;
