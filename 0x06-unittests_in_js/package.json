@@ -4,7 +4,7 @@
   "description": "0x06-unittests_in_js npm test 2-calcul.test.js",
   "main": "0-calcul.js",
   "scripts": {
-    "test": "mocha 2-calcul_chai.test.js"
+    "test": "mocha *.js"
   },
   "author": "",
   "license": "ISC",
