@@ -95,7 +95,7 @@ describe('test function calculateNumber in 1-calcul', () => {
   });
   it('test the DIVISION for real number', () => {
     const result = calculateNumber('DIVIDE', 3, 0);
-    assert.equal(result, "Error");
+    assert.equal(result, 'Error');
   });
   it('test the DIVISION for real and decimal number', () => {
     const result = calculateNumber('DIVIDE', 1, 3.7);
@@ -103,11 +103,11 @@ describe('test function calculateNumber in 1-calcul', () => {
   });
   it('test the DIVISION for real and decimal number', () => {
     const result = calculateNumber('DIVIDE', 1, 0);
-    assert.equal(result, "Error");
+    assert.equal(result, 'Error');
   });
   it('test the DIVISION for decimal number', () => {
-  const result = calculateNumber('DIVIDE', 1.55, 0);
-  assert.equal(result, "Error");
+    const result = calculateNumber('DIVIDE', 1.55, 0);
+    assert.equal(result, 'Error');
   });
   it('test the DIVISION for decimal number', () => {
     const result = calculateNumber('DIVIDE', 1.2, 3.7);
