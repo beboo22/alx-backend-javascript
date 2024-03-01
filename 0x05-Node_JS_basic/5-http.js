@@ -1,8 +1,18 @@
-#!/usr/bin/node
 const http = require('http');
 const fs = require('fs').promises;
 
-async function countStudents (path) {
+const countStudentsPromise = (path, res) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      await countStudents(path, res);
+      resolve();
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
+async function countStudents(path, res) {
   let db;
   try {
     db = await fs.readFile(path, 'utf-8');
@@ -29,10 +39,18 @@ async function countStudents (path) {
   delete data.field;
   num -= 1;
 
-  console.log(`Number of students: ${num}`);
+  res.write(`Number of students: ${num}\n`);
+  let len = Object.keys(data).length;
   Object.entries(data).forEach(([key, val]) => {
-    console.log(`Number of students in ${key}: ${val.length}. List: ${val.join(', ')}`);
+    let cont = `Number of students in ${key}: ${val.length}. List: ${val.join(', ')}`;
+      if (len !== 1) {
+        cont += '\n';
+      }
+      len -= 1;
+      res.write(cont);
   });
+
+  res.end();
 }
 
 const app = http.createServer(async (req, res) => {
@@ -40,18 +58,15 @@ const app = http.createServer(async (req, res) => {
   if (req.url === '/') {
     res.end('Hello Holberton School!');
   } else if (req.url === '/students') {
-    res.write('This is the list of our students');
+    res.write('This is the list of our students\n');
     try {
-      const result = await countStudents(process.argv[2]);
-      res.end(result);
+      await countStudentsPromise(process.argv[2], res);
     } catch (e) {
-      res.end(e.message);
+      res.end(`Error: ${e.message}`);
     }
   }
 });
 
-app.listen(1245, () => {
-  console.log('...');
-});
+app.listen(1245);
 
 module.exports = app;
