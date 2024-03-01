@@ -1,8 +1,8 @@
 #!/usr/bin/node
-const express = require('express');
 const fs = require('fs');
+const express = require('express');
 
-function countStudents (path, res) {
+function countStudents(path, res) {
   const promise = new Promise((resolve, reject) => {
     fs.readFile(path, 'utf8', (err, d) => {
       if (err) {
@@ -47,6 +47,7 @@ const app = express();
 app.get('/', (req, res) => {
   res.send('Hello Holberton School!');
 });
+
 app.get('/students', (req, res) => {
   res.write('This is the list of our students\n');
   countStudents(process.argv[2], res).then(() => {
