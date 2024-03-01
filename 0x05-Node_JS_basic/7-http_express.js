@@ -1,5 +1,5 @@
 #!/usr/bin/node
-const http = require('http');
+const express = require('express');
 const fs = require('fs');
 
 function countStudents (path, res) {
@@ -43,19 +43,17 @@ function countStudents (path, res) {
   return promise;
 }
 
-const app = http.createServer((req, res) => {
-  if (req.url === '/') {
-    res.write('Hello Holberton School!');
-    res.end();
-  } else if (req.url === '/students') {
-    res.write('This is the list of our students\n');
-    countStudents(process.argv[2], res).then(() => {
-      res.end();
-    }).catch((err) => {
-      res.end(err.message);
-    });
-  }
+const app = express();
+app.get('/', (req, res) => {
+  res.send('Hello Holberton School!');
 });
-
+app.get('/students', (req, res) => {
+  res.write('This is the list of our students\n');
+  countStudents(process.argv[2], res).then(() => {
+    res.end();
+  }).catch((err) => {
+    res.end(err.message);
+  });
+});
 app.listen(1245);
 module.exports = app;

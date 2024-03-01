@@ -1,7 +1,7 @@
 #!/usr/bin/node
 const fs = require('fs');
 
-function countStudents(path) {
+function countStudents (path) {
   let data = null;
   try {
     data = fs.readFileSync(path, 'utf8');
